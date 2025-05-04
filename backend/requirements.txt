@@ -1,6 +1,8 @@
 fastapi
 uvicorn
-tensorflow
+torch
 numpy
 python-multipart
 pandas
+websockets
+gunicorn

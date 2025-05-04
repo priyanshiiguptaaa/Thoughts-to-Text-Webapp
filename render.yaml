@@ -1,0 +1,25 @@
+services:
+  # Backend API service
+  - type: web
+    name: thoughts-to-text-api
+    env: python
+    buildCommand: cd backend && pip install -r requirements.txt
+    startCommand: cd backend && uvicorn app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+
+  # Frontend static site
+  - type: web
+    name: thoughts-to-text-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: ./frontend/dist
+    envVars:
+      - key: NODE_VERSION
+        value: 16.13.0
+      - key: VITE_API_URL
+        fromService:
+          name: thoughts-to-text-api
+          type: web
+          property: url
